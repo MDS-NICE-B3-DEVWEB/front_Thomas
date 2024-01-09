@@ -23,8 +23,6 @@ function Navbar() {
                 localStorage.removeItem('token'); // Remove invalid token
                 setUser(null); // Reset user state
             });
-        } else {
-            navigate('/login');
         }
     }, [navigate]);
 
@@ -37,28 +35,16 @@ function Navbar() {
     return (
         <div className="topnav" id="myTopnav">
             <Link to="/">Home</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-            {user && user.roles && user.roles[0] && (
-                <div>
-                    {` ${user.name}`}
-                    {`${user.roles[0].name}`}
-                    {/* Actions spécifiques en fonction du rôle */}
-                    {user.roles[0].name === 'beatmaker' && (
-                        <button onClick={() => console.log('Action réservée aux Beatmakers')}>
-                            Action Beatmaker
-                        </button>
-                    )}
-                    {user.roles[0].name === 'artist' && (
-                        <button onClick={() => console.log('Action réservée aux Artistes')}>
-                            Action Artiste
-                        </button>
-                    )}
-                    {/* Bouton de déconnexion */}
-                    <button onClick={handleLogout}>Déconnexion</button>
-                </div>
+            {user ? (
+                <>
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Register</Link>
+                </>
             )}
-            {!user && <button onClick={handleLogout}>Déconnexion</button>}
         </div>
     );
 }

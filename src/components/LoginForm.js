@@ -29,7 +29,7 @@ function LoginForm() {
         headers: {
           'Content-Type': 'application/json'
         },
-        data: {
+        params: {
           email: email,
           password: password
         }

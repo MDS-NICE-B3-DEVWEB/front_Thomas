@@ -4,33 +4,33 @@ import React, { useState, useEffect } from 'react';
 
 function Home() {
     const navigate = useNavigate();
-    const [beats, setBeats] = useState(null); // Corrected here
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
         if (!token) {
+            console.log("No token found, redirecting to login");
             navigate('/login');
-        } else {
-            axios.get('http://64.226.74.198:8000/api/beats', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(response => {
-                setBeats(response.data); // Corrected here
-            }).catch(error => {
-                console.error("Error fetching beats info", error); // Corrected error message
-                navigate('/login');
-            });
+            return;
         }
+    
+        axios.get('http://64.226.74.198:8000/api/user', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            setUser(response.data);
+        }).catch(error => {
+            console.error("Error fetching user info", error);
+            navigate('/login');
+        });
     }, [navigate]);
 
-    console.log(beats);
 
     return (
         <div>
             <h1>Home</h1>
-            {/* You can map over the beats and display them here */}
+            <p>Bienvenue {user && user.name}</p>
         </div>
     );
 }
